@@ -22,7 +22,7 @@ Item                    price (zł and USD)          link        count
 
 # Schematics 
 ![](image-3.png)
-It 
+It took me like 3 tries
 
 # Pcb
 
