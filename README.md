@@ -16,7 +16,7 @@ Item                    price (zł and USD)          link        count
 
     5. PCB                       ~73,30zł~20$     pcbway.com     1
 
-    6. 3d Print                  ill ask my school they have 3 3d printers but idk if they will accept (prob yes they are very nice)
+    6. 3d Print                  ill ask my school they have 3 3d printers but idk if they will accept (prob yes they are very nice) but i marked it so i dont have a 3d printer because its a game of chance with my school
 
 # TOTAL 166.72zł 45.5$
 
