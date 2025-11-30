@@ -1,35 +1,106 @@
-# You import all the IOs of your board
-import board
+import time
+import board#type:ignore
+import digitalio#type:ignore
+import neopixel#type:ignore
+import rotaryio#type:ignore
+from adafruit_hid.keyboard import Keyboard#type:ignore
+from adafruit_hid.keycode import Keycode#type:ignore
+from adafruit_hid.consumer_control import ConsumerControl#type:ignore
+from adafruit_hid.consumer_control_code import ConsumerControlCode#type:ignore
+import rainbowio#type:ignore  # For nice rainbow colors
 
-# These are imports from the kmk library
-from kmk.kmk_keyboard import KMKKeyboard
-from kmk.scanners.keypad import KeysScanner
-from kmk.keys import KC
-from kmk.modules.macros import Press, Release, Tap, Macros
+# -----------------------------
+# CONFIG
+# -----------------------------
+NUM_LEDS = 7
+PIXEL_PIN = board.GP3
 
-# This is the main instance of your keyboard
-keyboard = KMKKeyboard()
+# Button pins
+BUTTON_PINS = [board.GP4, board.GP2, board.GP1, board.GP0, board.GP7, board.GP6, board.GP29]
 
-# Add the macro extension
-macros = Macros()
-keyboard.modules.append(macros)
+# Rotary encoder pins
+ENCODER_PIN_A = board.GP28
+ENCODER_PIN_B = board.GP27
+ENCODER_BUTTON = board.GP26  # S1
 
-# Define your pins here!
-PINS = [board.D3, board.D4, board.D2, board.D1]
+# -----------------------------
+# SETUP DEVICES
+# -----------------------------
 
-# Tell kmk we are not using a key matrix
-keyboard.matrix = KeysScanner(
-    pins=PINS,
-    value_when_pressed=False,
-)
+# Neopixels
+pixels = neopixel.NeoPixel(PIXEL_PIN, NUM_LEDS, brightness=0.3, auto_write=True)
 
-# Here you define the buttons corresponding to the pins
-# Look here for keycodes: https://github.com/KMKfw/kmk_firmware/blob/main/docs/en/keycodes.md
-# And here for macros: https://github.com/KMKfw/kmk_firmware/blob/main/docs/en/macros.md
-keyboard.keymap = [
-    [KC.A, KC.DELETE, KC.MACRO("Hello world!"), KC.Macro(Press(KC.LCMD), Tap(KC.S), Release(KC.LCMD)),]
+# Push buttons
+buttons = []
+for pin in BUTTON_PINS:
+    b = digitalio.DigitalInOut(pin)
+    b.direction = digitalio.Direction.INPUT
+    b.pull = digitalio.Pull.UP
+    buttons.append(b)
+
+# Rotary encoder
+encoder = rotaryio.IncrementalEncoder(ENCODER_PIN_A, ENCODER_PIN_B)
+last_position = encoder.position
+
+# Encoder button
+encoder_btn = digitalio.DigitalInOut(ENCODER_BUTTON)
+encoder_btn.direction = digitalio.Direction.INPUT
+encoder_btn.pull = digitalio.Pull.UP
+
+# HID devices
+kbd = Keyboard()
+cc = ConsumerControl()
+
+# -----------------------------
+# PUSH BUTTON MAPPINGS
+# -----------------------------
+button_keys = [
+    (Keycode.CONTROL, Keycode.T),          # Button 1
+    (Keycode.CONTROL, Keycode.W),          # Button 2
+    (Keycode.CONTROL, Keycode.SHIFT, Keycode.T), # Button 3
+    (Keycode.WINDOWS, Keycode.ONE),        # Button 4
+    (Keycode.WINDOWS, Keycode.TWO),        # Button 5
+    (Keycode.WINDOWS, Keycode.THREE),      # Button 6
+    (Keycode.WINDOWS, Keycode.FOUR)        # Button 7
 ]
 
-# Start kmk!
-if __name__ == '__main__':
-    keyboard.go()
+# -----------------------------
+# NEOPIXEL RAINBOW
+# -----------------------------
+def rainbow_cycle(wait=0.02):
+    for i in range(NUM_LEDS):
+        pixel_index = (i * 256 // NUM_LEDS) + rainbow_cycle.index
+        pixels[i] = rainbowio.colorwheel(pixel_index & 255)
+    rainbow_cycle.index = (rainbow_cycle.index + 1) % 256
+rainbow_cycle.index = 0
+
+# -----------------------------
+# MAIN LOOP
+# -----------------------------
+while True:
+    # ----- ROTARY ENCODER -----
+    position = encoder.position
+    if position != last_position:
+        if position > last_position:
+            cc.send(ConsumerControlCode.VOLUME_INCREMENT)
+        else:
+            cc.send(ConsumerControlCode.VOLUME_DECREMENT)
+        last_position = position
+
+    # ----- ENCODER BUTTON -----
+    if not encoder_btn.value:  # pressed (active low)
+        cc.send(ConsumerControlCode.PLAY_PAUSE)
+        time.sleep(0.2)  # debounce
+
+    # ----- PUSH BUTTONS -----
+    for i, b in enumerate(buttons):
+        if not b.value:  # pressed (active low)
+            keys = button_keys[i]
+            kbd.press(*keys)
+            kbd.release_all()
+            time.sleep(0.2)  # simple debounce
+
+    # ----- RAINBOW ANIMATION -----
+    rainbow_cycle()
+    pixels.show()
+    time.sleep(0.02)
