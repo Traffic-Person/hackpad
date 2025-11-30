@@ -14,11 +14,11 @@ Item                    price (zł and USD)          link        count
 
     4. MX-style Switches         58,64zł 16$      https://www.amazon.com/Cherry-MX-RGB-Mechanical-Keyboard/dp/B0F4Y8N29V?th=1   7
 
-    5. PCB                       ~73,30zł~20$     pcbway.com     1
+    5. PCB                       ~80zł   ~23$     pcbway.com     1
 
     6. 3d Print                  ill ask my school they have 3 3d printers but idk if they will accept (prob yes they are very nice) but i marked it so i dont have a 3d printer because its a game of chance with my school
 
-# TOTAL 166.72zł 45.5$
+# TOTAL 172zł 48.5$
 
 # Schematics 
 ![](image-3.png)
