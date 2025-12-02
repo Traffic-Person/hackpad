@@ -26,14 +26,14 @@ It took me like 3 tries
 
 # Pcb
 
-![alt text](image.png)
+![alt text](images/image.png)
 
 Aint the prettiest but it took me like 4 tries
 
 # 3d Model
 
-![alt text](image-1.png)
-![alt text](image-2.png)
+![alt text](images/image-1.png)
+![alt text](images/image-2.png)
 
 Same with the pcb isnt the prettiest but it took me in total ~15 hours (Everything took ~15 hours)
 
