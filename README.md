@@ -21,7 +21,7 @@ Item                    price (zł and USD)          link        count
 # TOTAL 172zł 48.5$
 
 # Schematics 
-![](image-3.png)
+![](images/image-3.png)
 It took me like 3 tries
 
 # Pcb
