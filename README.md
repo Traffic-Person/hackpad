@@ -5,7 +5,7 @@ I made this to learn about "professional" hardware and prototype making
 
 # Bill of materials
 
-![](bom.csv)
+[BOM](/bom.csv)
 
 # Schematics 
 ![](images/image-3.png)
