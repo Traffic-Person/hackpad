@@ -3,9 +3,7 @@ this is a hackpad that i made to be more productive and to serve as a media play
 
 I made this to learn about "professional" hardware and prototype making 
 
-# Bill of materials
-
-[BOM](/bom.csv)
+# [Bill Of Materials](/bom.csv)
 
 # Schematics 
 ![](images/image-3.png)
