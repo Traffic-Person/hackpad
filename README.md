@@ -37,6 +37,12 @@ Aint the prettiest but it took me like 4 tries
 
 Same with the pcb isnt the prettiest but it took me in total ~15 hours (Everything took ~15 hours)
 
+# Final Render 
+
+![alt text](images/hackpadrender1.png)
+![alt text](images/hackpadrender2.png)
+![alt text](images/hackpadrender3.png)
+
 # Early Prototypes
 <img width="1063" height="637" alt="Screenshot 2025-11-29 110040" src="https://github.com/user-attachments/assets/62323b58-57d9-4695-bf1e-157624ec91a6" />
 <img width="834" height="424" alt="Screenshot 2025-11-29 184705" src="https://github.com/user-attachments/assets/1ac3598c-8c06-46cb-b256-8c8650b26de4" />
